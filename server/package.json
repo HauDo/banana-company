@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dieuph/banana-company/issues"
   },
-  "homepage": "https://github.com/dieuph/banana-company#readme"
+  "homepage": "https://github.com/dieuph/banana-company#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
