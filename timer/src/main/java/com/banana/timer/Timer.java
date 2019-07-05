@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Timer extends Application {
+
 	public static void main(String[] args) {
 		try {
 			Application.launch(args);
@@ -19,13 +20,11 @@ public class Timer extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/timer.fxml"));
-		Scene scene = new Scene(root, 100, 100);
+		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		
-//		stage.initStyle(StageStyle.UTILITY);
-//		stage.resizableProperty().setValue(Boolean.FALSE);
-//		stage.initStyle(StageStyle.UNDECORATED);
-
+		stage.initStyle(StageStyle.UTILITY);
+		stage.resizableProperty().setValue(Boolean.FALSE);
 		stage.show();
 	}
+
 }
