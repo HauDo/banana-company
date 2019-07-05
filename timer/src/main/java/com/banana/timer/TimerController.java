@@ -35,7 +35,7 @@ public class TimerController implements Initializable {
 
 
 	private void configureButton() {
-		button.setText("Checkin");
+		button.setText(Status.getById(status).getName());
 		button.setOnAction(event -> {
 			status++;
 			button.setText(Status.getById(status).getName());
@@ -48,7 +48,7 @@ public class TimerController implements Initializable {
 	}
 	
 	private void configureImageView() {
-		imageViews = Arrays.asList(checkinImageView, checkoutImageView, processImageView);
+		imageViews = Arrays.asList(checkinImageView, processImageView, checkoutImageView);
 		checkinImageView.setVisible(true);
 	}
 }
