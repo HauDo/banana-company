@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Status {
-	CHECKIN(1, "Checkin"),
+	CHECKIN(1, "Check in"),
 	PROCESS(2, "Processing..."),
-	CHECKOUT(3, "Checkout")
+	CHECKOUT(3, "Check out")
 	;
 	
 	private int id;
