@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @XmlRootElement(name = "dataRequest")
 public class DataRequest {
 
-	private String userId;
+	private String empId;
 	private String account;
 	private Date localTime;
 	private String location;
 
-	public String getUserId() {
-		return userId;
+	public String getEmpId() {
+		return empId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setEmpId(String empId) {
+		this.empId = empId;
 	}
 	public String getAccount() {
 		return account;
