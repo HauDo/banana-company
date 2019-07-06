@@ -16,6 +16,7 @@ router.post('/checkin', function(req, res, next) {
   	}
 
   	return res.status(200).json({
+  		status: 1,
   		message: "You checked in at " + moment(new Date()).format(TIME_FORMAT) + ". Enjoy your day."
   	});
 });
@@ -32,6 +33,7 @@ router.post('/checkout', function(req, res, next) {
   	}
 
   	return res.status(200).json({
+  		status: 3,
   		message: "You checked out at " + moment(new Date()).format(TIME_FORMAT) + ". Go home and enjoy your evening."
   	});
 });
@@ -47,7 +49,7 @@ router.post('/status', function(req, res, next) {
   	}
 
   	return res.status(200).json({
-  		status: 'checkin',
+  		status: 1,
 		time: '2012-04-23T13:25:43.511Z'
   	});
 });
