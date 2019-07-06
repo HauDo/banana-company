@@ -44,15 +44,24 @@ public class TimerController implements Initializable {
 	private void configureButton() {
 		button.setText("Checkin");
 		button.setOnAction(event -> {
+			status = Status.PROCESS.getId();
+			button.setText(Status.getById(status).getName());
+			imageViews.get(2).setVisible(true);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			DataResponse dataResponse = DataRequestService.createInstance().checkIn();
-			if (dataResponse.getStatus().equals(Status.CHECKIN.getId())) {
+			if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("test");
 				alert.setHeaderText("1111");
 				alert.setContentText("222222222");
 				alert.show();
+				status = Status.CHECKOUT.getId();
 			}
-			status++;
 			button.setText(Status.getById(status).getName());
 			imageViews.forEach(imageView -> imageView.setVisible(false));
 			imageViews.get(status - 1).setVisible(true);

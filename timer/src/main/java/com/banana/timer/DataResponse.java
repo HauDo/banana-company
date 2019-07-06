@@ -1,12 +1,12 @@
 package com.banana.timer;
 
 public class DataResponse {
-	public String status;
+	public int status;
 	public String message;
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getMessage() {
