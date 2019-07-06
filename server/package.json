@@ -1,10 +1,15 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "banana company server",
-  "main": "index.js",
+  "description": "banana company server node",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "mongo:start": "docker run --name banana-mongo -p 27017:27017 mongo & sleep 5",
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
+    "test": "newman run ./tests/api-tests.postman.json -e ./tests/env-api-tests.postman.json",
+    "stop": "lsof -ti :3000 | xargs kill",
+    "mongo:stop": "docker stop banana-mongo && docker rm banana-mongo"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,28 @@
   },
   "homepage": "https://github.com/dieuph/banana-company#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "cors": "2.7.1",
+    "ejs": "2.4.1",
+    "errorhandler": "1.4.3",
+    "express": "^4.17.1",
+    "express-jwt": "3.3.0",
+    "express-session": "^1.16.2",
+    "jsonwebtoken": "7.1.9",
+    "method-override": "2.3.5",
+    "methods": "1.1.2",
+    "moment": "^2.24.0",
+    "mongoose": "4.4.10",
+    "mongoose-unique-validator": "1.0.2",
+    "morgan": "^1.9.1",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0",
+    "request": "^2.88.0",
+    "slug": "0.9.1",
+    "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "newman": "^3.8.2",
+    "nodemon": "^1.11.0"
   }
 }
