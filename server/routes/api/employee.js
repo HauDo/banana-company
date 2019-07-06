@@ -5,12 +5,12 @@ var router = require('express').Router(),
 var TIME_FORMAT = 'HH:mm:ss';
 
 router.post('/checkin', function(req, res, next) {
-  	if (!req.body.empid || !req.body.account || !req.body.localtime) {
+  	if (!req.body.empId || !req.body.account || !req.body.localTime) {
     	return res.status(422).json({
     		errors: {
-    			empid: "can't be blank",
+    			empId: "can't be blank",
     			account: "can't be blank",
-    			localtime: "can't be blank"
+    			localTime: "can't be blank"
     		}
     	});
   	}
@@ -21,12 +21,12 @@ router.post('/checkin', function(req, res, next) {
 });
 
 router.post('/checkout', function(req, res, next) {
-  	if (!req.body.empid || !req.body.account || !req.body.localtime) {
+  	if (!req.body.empId || !req.body.account || !req.body.localTime) {
     	return res.status(422).json({
     		errors: {
-    			empid: "can't be blank",
+    			empId: "can't be blank",
     			account: "can't be blank",
-    			localtime: "can't be blank"
+    			localTime: "can't be blank"
     		}
     	});
   	}
@@ -37,10 +37,10 @@ router.post('/checkout', function(req, res, next) {
 });
 
 router.post('/status', function(req, res, next) {
-  	if (!req.body.empid || !req.body.account || !req.body.localtime) {
+  	if (!req.body.empId || !req.body.account) {
     	return res.status(422).json({
     		errors: {
-    			empid: "can't be blank",
+    			empId: "can't be blank",
     			account: "can't be blank"
     		}
     	});
