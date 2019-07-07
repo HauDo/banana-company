@@ -40,7 +40,7 @@ public class TimerController implements Initializable {
 	private static final String CHECK_OUT_SUCCESSFUL = "Checkout successful !!!";
 	private static final String CHECK_OUT_FAILED = "Checkout failed !!!";
 	private static final String CAN_NOT_CONNECT_SERVER = "Can't connect to server";
-	private int status = 1;
+	private int status = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
