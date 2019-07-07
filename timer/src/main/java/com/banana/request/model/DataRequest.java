@@ -1,4 +1,4 @@
-package com.banana.timer;
+package com.banana.request.model;
 
 import java.util.Date;
 

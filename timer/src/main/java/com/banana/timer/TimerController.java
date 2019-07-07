@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.banana.datarequest.DataRequestService;
+import com.banana.request.model.DataResponse;
+import com.banana.request.service.DataRequestService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +35,8 @@ public class TimerController implements Initializable {
 
 	private List<ImageView> imageViews;
 
+	DataResponse dataResponse = null;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		configureButton();
@@ -42,37 +45,63 @@ public class TimerController implements Initializable {
 
 
 	private void configureButton() {
-		button.setText("Checkin");
 		button.setOnAction(event -> {
-			status = Status.PROCESS.getId();
-			button.setText(Status.getById(status).getName());
-			imageViews.get(2).setVisible(true);
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (status == Status.CHECKIN.getId()) {
+				handleCheckin();
+				return;
 			}
-			DataResponse dataResponse = DataRequestService.createInstance().checkIn();
-			if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("test");
-				alert.setHeaderText("1111");
-				alert.setContentText("222222222");
-				alert.show();
-				status = Status.CHECKOUT.getId();
+			if (status == Status.CHECKOUT.getId()) {
+				handleCheckout();
+				return;
 			}
-			button.setText(Status.getById(status).getName());
-			imageViews.forEach(imageView -> imageView.setVisible(false));
-			imageViews.get(status - 1).setVisible(true);
-			if (status == 3) {
-				status = 0;
-			}
+
 		});
 	}
 
+	private void handleCheckin() {
+		try {
+			dataResponse = DataRequestService.createInstance().checkIn();
+		} catch (Exception e) {
+			buildAlert("Checkin failed !!!", "Got the technical error");
+			e.printStackTrace();
+		}
+		if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
+			buildAlert("Checkin successfully !!!", dataResponse.getMessage());
+			status = Status.CHECKOUT.getId();
+			handleButtonAndScreen(Status.CHECKOUT);
+		}
+	}
+
+	private void handleCheckout() {
+		try {
+			dataResponse = DataRequestService.createInstance().checkOut();
+		} catch (Exception e) {
+			buildAlert("Checkout failed !!!", "Got the technical error");
+			e.printStackTrace();
+		}
+		if (dataResponse.getStatus() == Status.CHECKOUT.getId()) {
+			buildAlert("Checkout successfully", dataResponse.getMessage());
+			handleButtonAndScreen(Status.CHECKOUT);
+		}
+	}
+
+	private void handleButtonAndScreen(Status status) {
+		button.setText(status.getName());
+		imageViews.get(status.getId() - 1).setVisible(true);
+	}
+
+
+
 	private void configureImageView() {
-		imageViews = Arrays.asList(checkinImageView, checkoutImageView, processImageView);
+		imageViews = Arrays.asList(checkinImageView, processImageView, checkoutImageView);
 		checkinImageView.setVisible(true);
+	}
+
+	private void buildAlert(String header, String content) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Timer system");
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.show();
 	}
 }

@@ -1,4 +1,4 @@
-package com.banana.timer;
+package com.banana.request.model;
 
 public class DataResponse {
 	public int status;
