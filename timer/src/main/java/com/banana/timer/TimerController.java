@@ -31,11 +31,15 @@ public class TimerController implements Initializable {
 
 	@FXML private Tooltip checkinMessage;
 
-	private int status = 1;
-
 	private List<ImageView> imageViews;
+	private DataResponse dataResponse = null;
 
-	DataResponse dataResponse = null;
+	private static final String CHECK_IN_FAILED = "Checkin failed !!!";
+	private static final String CHECK_IN_SUCCESSFUL = "Checkin successful !!!";
+	private static final String CHECK_OUT_SUCCESSFUL = "Checkout successful !!!";
+	private static final String CHECK_OUT_FAILED = "Checkout failed !!!";
+	private static final String CAN_NOT_CONNECT_SERVER = "Can't connect to server";
+	private int status = 1;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -62,11 +66,12 @@ public class TimerController implements Initializable {
 		try {
 			dataResponse = DataRequestService.createInstance().checkIn();
 		} catch (Exception e) {
-			buildAlert("Checkin failed !!!", "Got the technical error");
+			buildAlert(CHECK_IN_FAILED, CAN_NOT_CONNECT_SERVER);
 			e.printStackTrace();
+			return;
 		}
 		if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
-			buildAlert("Checkin successfully !!!", dataResponse.getMessage());
+			buildAlert(CHECK_IN_SUCCESSFUL, dataResponse.getMessage());
 			status = Status.CHECKOUT.getId();
 			handleButtonAndScreen(Status.CHECKOUT);
 		}
@@ -76,11 +81,12 @@ public class TimerController implements Initializable {
 		try {
 			dataResponse = DataRequestService.createInstance().checkOut();
 		} catch (Exception e) {
-			buildAlert("Checkout failed !!!", "Got the technical error");
+			buildAlert(CHECK_OUT_FAILED, CAN_NOT_CONNECT_SERVER);
 			e.printStackTrace();
+			return;
 		}
 		if (dataResponse.getStatus() == Status.CHECKOUT.getId()) {
-			buildAlert("Checkout successfully", dataResponse.getMessage());
+			buildAlert(CHECK_OUT_SUCCESSFUL, dataResponse.getMessage());
 			handleButtonAndScreen(Status.CHECKOUT);
 		}
 	}
