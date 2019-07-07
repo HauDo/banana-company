@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.banana.dataresponse.StatusDataResponse;
 import com.banana.request.model.DataResponse;
 import com.banana.request.service.DataRequestService;
 
@@ -39,10 +40,22 @@ public class TimerController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configureButton();
 		configureImageView();
+		checkStatus();
+		configureButton();
 	}
 
+	private void checkStatus() {
+		imageViews.forEach(imageView -> imageView.setVisible(false));
+		StatusDataResponse statusDataResponse = DataRequestService.createInstance().checkStatus();
+		if (statusDataResponse.getStatus() == Status.CHECKIN.getId()
+				|| statusDataResponse.getStatus() == Status.CHECKOUT.getId()) {
+			status = statusDataResponse.getStatus();
+			handleButtonAndScreen(Status.CHECKOUT);
+		} else {
+			handleButtonAndScreen(Status.CHECKIN);
+		}
+	}
 
 	private void configureButton() {
 		button.setOnAction(event -> {
