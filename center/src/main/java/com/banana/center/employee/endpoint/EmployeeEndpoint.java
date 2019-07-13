@@ -31,6 +31,115 @@ public class EmployeeEndpoint {
         this.employeeRepository = employeeRepository;
     }
     
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("")
+    public Response addNewEmployee(
+    		@FormParam("account") String account) {
+    	
+    	employeeRepository.add(new Employee(account, Status.ACTIVE));
+    	
+        return Response.accepted(employeeRepository.list().size()).build();
+    }
+    
+    @GET
+    @Path("{account}")
+    public Response checkEmployee(
+    		@PathParam("account") String account) {
+
+        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
+
+        if (null == account || matchingEmployees.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+            			   .entity("Could not process this request ")
+            			   .build();
+        }
+
+        return Response.accepted(matchingEmployees.first()).build();
+    }
+
+    @POST
+    @Path("{account}/checkin")
+    public Response checkin(
+    		@PathParam("account") String account,
+    		@FormParam("localtime") String localtime) {
+
+        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
+
+        if (null == account
+        		|| matchingEmployees.isEmpty()
+        		|| matchingEmployees.first().getStatus() != Status.ACTIVE) {
+            return Response.status(Response.Status.BAD_REQUEST)
+            			   .entity("Could not process this request ")
+            			   .build();
+        }
+
+        matchingEmployees.first().checkin();
+
+        return Response.accepted(matchingEmployees.first()).build();
+    }
+    
+    @POST
+    @Path("{account}/checkout")
+    public Response checkout(
+    		@PathParam("account") String account,
+    		@FormParam("localtime") String localtime) {
+
+        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
+
+        if (null == account
+        		|| matchingEmployees.isEmpty()
+        		|| matchingEmployees.first().getStatus() != Status.CHECKED_IN) {
+            return Response.status(Response.Status.BAD_REQUEST)
+            			   .entity("Could not process this request")
+            			   .build();
+        }
+
+        matchingEmployees.first().checkout();
+
+        return Response.accepted(matchingEmployees.first()).build();
+    }
+    
+    @POST
+    @Path("{account}/inactive")
+    public Response inactiveEmployee(
+    		@PathParam("account") String account) {
+
+        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
+
+        if (null == account
+        		|| matchingEmployees.isEmpty()
+        		|| matchingEmployees.first().getStatus() == Status.INACTIVE) {
+            return Response.status(Response.Status.BAD_REQUEST)
+            			   .entity("Could not process this request")
+            			   .build();
+        }
+
+        matchingEmployees.first().inactive();
+
+        return Response.accepted(matchingEmployees.first()).build();
+    }
+
+    @POST
+    @Path("{account}/active")
+    public Response activeEmployee(
+    		@PathParam("account") String account) {
+    	
+    	final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
+
+        if (null == account
+        		|| matchingEmployees.isEmpty()
+        		|| matchingEmployees.first().getStatus() != Status.INACTIVE) {
+            return Response.status(Response.Status.BAD_REQUEST)
+            			   .entity("Could not process this request")
+            			   .build();
+        }
+
+        matchingEmployees.first().active();
+
+        return Response.accepted(matchingEmployees.first()).build();
+    }
+
     @GET
     @Path("")
     public Response getAllEmployees(
@@ -56,91 +165,4 @@ public class EmployeeEndpoint {
 
         return Response.accepted(list.filterOutInactive()).build();
     }
-    
-    @POST
-    @Path("{id}/checkin/{policy}")
-    public Response checkin(
-    		@PathParam("account") String account,
-    		@PathParam("policy") String policy) {
-
-        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
-
-        if (null == account
-        		|| null == policy
-        		|| matchingEmployees.isEmpty()
-        		|| policyRepository.findById(policy).isEmpty()
-        		|| matchingEmployees.first().getStatus() != Status.UNKNOWN) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Could not process this request ").build();
-        }
-
-        matchingEmployees.first().checkin();
-
-        return Response.accepted(matchingEmployees.first()).build();
-    }
-
-    @POST
-    @Path("{id}/checkout")
-    public Response checkout(
-    		@PathParam("account") String account) {
-
-        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
-
-        if (null == account
-        		|| matchingEmployees.isEmpty()
-        		|| matchingEmployees.first().getStatus() != Status.CHECKED_IN) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Could not process this request").build();
-        }
-
-        matchingEmployees.first().checkout();
-
-        return Response.accepted(matchingEmployees.first()).build();
-    }
-
-    @POST
-    @Path("{id}/inactive")
-    public Response inactiveEmployee(
-    		@PathParam("account") String account) {
-
-        final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
-
-        if (null == account
-        		|| matchingEmployees.isEmpty()
-        		|| matchingEmployees.first().getStatus() == Status.INACTIVE) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Could not process this request").build();
-        }
-
-        matchingEmployees.first().inactive();
-
-        return Response.accepted(matchingEmployees.first()).build();
-    }
-
-    @POST
-    @Path("{id}/active")
-    public Response activeEmployee(
-    		@PathParam("account") String account) {
-    	
-    	final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
-
-        if (null == account
-        		|| matchingEmployees.isEmpty()
-        		|| matchingEmployees.first().getStatus() != Status.INACTIVE) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Could not process this request").build();
-        }
-
-        matchingEmployees.first().active();
-
-        return Response.accepted(matchingEmployees.first()).build();
-    }
-
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("")
-    public Response addNewEmployee(
-            @FormParam("account") String account) {
-
-    	employeeRepository.add(new Employee(account, Status.UNKNOWN));
-
-        return Response.accepted(employeeRepository.list().size()).build();
-    }
-
 }

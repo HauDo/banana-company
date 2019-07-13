@@ -64,8 +64,8 @@ public class Employee {
         return getStatus().getValue();
     }
     
-    public void unknown() {
-        statuses.add(Status.UNKNOWN);
+    public void active() {
+        statuses.add(Status.ACTIVE);
     }
 
     public void checkin() {
@@ -80,10 +80,6 @@ public class Employee {
     	statuses.add(Status.INACTIVE);
     }
 
-    public void active() {
-    	statuses.add(Status.UNKNOWN);
-    }
-    
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

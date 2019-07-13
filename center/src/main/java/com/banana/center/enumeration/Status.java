@@ -5,7 +5,7 @@ import java.util.Map;
 
 
 public enum Status {
-	UNKNOWN(0),
+	ACTIVE(0),
 	CHECKED_IN (1),
     CHECKED_OUT (2),
     INACTIVE (3)
