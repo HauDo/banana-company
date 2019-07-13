@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.banana.center.employee.model.Employee;
 import com.banana.center.employee.model.Employees;
@@ -26,22 +27,22 @@ public class EmployeeEndpoint {
     private EmployeeRepository employeeRepository;
 
     private PolicyRepository policyRepository = new PolicyRepository();
-    
+
     public EmployeeEndpoint(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-    
+
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Path("")
     public Response addNewEmployee(
     		@FormParam("account") String account) {
-    	
+
     	employeeRepository.add(new Employee(account, Status.ACTIVE));
-    	
+
         return Response.accepted(employeeRepository.list().size()).build();
     }
-    
+
     @GET
     @Path("{account}")
     public Response checkEmployee(
@@ -62,7 +63,7 @@ public class EmployeeEndpoint {
     @Path("{account}/checkin")
     public Response checkin(
     		@PathParam("account") String account,
-    		@FormParam("localtime") String localtime) {
+    		@RequestParam("localtime") String localtime) {
 
         final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 
@@ -75,15 +76,14 @@ public class EmployeeEndpoint {
         }
 
         matchingEmployees.first().checkin();
-
         return Response.accepted(matchingEmployees.first()).build();
     }
-    
+
     @POST
     @Path("{account}/checkout")
     public Response checkout(
     		@PathParam("account") String account,
-    		@FormParam("localtime") String localtime) {
+    		@RequestParam("localtime") String localtime) {
 
         final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 
@@ -99,7 +99,7 @@ public class EmployeeEndpoint {
 
         return Response.accepted(matchingEmployees.first()).build();
     }
-    
+
     @POST
     @Path("{account}/inactive")
     public Response inactiveEmployee(
@@ -124,7 +124,7 @@ public class EmployeeEndpoint {
     @Path("{account}/active")
     public Response activeEmployee(
     		@PathParam("account") String account) {
-    	
+
     	final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 
         if (null == account
@@ -147,7 +147,7 @@ public class EmployeeEndpoint {
     		@QueryParam("localtime") String localtime,
     		@QueryParam("id") String id,
     		@QueryParam("status") String status) {
-    	
+
     	Employees list = employeeRepository.list();
 
         if (null != id) {
@@ -165,4 +165,5 @@ public class EmployeeEndpoint {
 
         return Response.accepted(list.filterOutInactive()).build();
     }
+
 }

@@ -50,11 +50,11 @@ public class TimerController implements Initializable {
 
 	private void configureButton() {
 		button.setOnAction(event -> {
-			if (status == Status.CHECKIN.getId()) {
+			if (status == Status.CHECKED_IN.getId()) {
 				handleCheckin();
 				return;
 			}
-			if (status == Status.CHECKOUT.getId()) {
+			if (status == Status.CHECKED_OUT.getId()) {
 				handleCheckout();
 				return;
 			}
@@ -70,10 +70,10 @@ public class TimerController implements Initializable {
 			e.printStackTrace();
 			return;
 		}
-		if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
-			buildAlert(CHECK_IN_SUCCESSFUL, dataResponse.getMessage());
-			status = Status.CHECKOUT.getId();
-			handleButtonAndScreen(Status.CHECKOUT);
+		if (dataResponse.getStatus() == Status.CHECKED_IN.getId()) {
+			buildAlert(CHECK_IN_SUCCESSFUL, "Checkin successfully, enjoy the game ^.^");
+			status = Status.CHECKED_OUT.getId();
+			handleButtonAndScreen(Status.CHECKED_OUT);
 		}
 	}
 
@@ -85,9 +85,9 @@ public class TimerController implements Initializable {
 			e.printStackTrace();
 			return;
 		}
-		if (dataResponse.getStatus() == Status.CHECKOUT.getId()) {
-			buildAlert(CHECK_OUT_SUCCESSFUL, dataResponse.getMessage());
-			handleButtonAndScreen(Status.CHECKOUT);
+		if (dataResponse.getStatus() == Status.CHECKED_OUT.getId()) {
+			buildAlert(CHECK_OUT_SUCCESSFUL, "Check out successfully, enjoy the game ^.^");
+			handleButtonAndScreen(Status.CHECKED_OUT);
 		}
 	}
 

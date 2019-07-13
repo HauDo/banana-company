@@ -21,22 +21,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DataRequestService {
 
-     public static final String API_CHECKIN_URL = "http://localhost:3000/api/employee/checkin";
-     public static final String API_CHECKOUT_URL = "http://localhost:3000/api/employee/checkout";
+     public static final String API_CHECKIN_URL = "http://localhost:8080/center/employee/ky/checkin";
+     public static final String API_CHECKOUT_URL = "http://localhost:8080/center/employee/ky/checkout";
 
      public static DataRequestService createInstance() {
          return new DataRequestService();
      }
 
     public DataResponse checkIn() throws Exception {
-    	DataRequest dataRequest = buildDataRequest("Emp01", "Nguyen Van A", "Canh Nau cf");
+    	DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
         Response response = getResponse(API_CHECKIN_URL, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
     public DataResponse checkOut() throws Exception {
-        DataRequest dataRequest = buildDataRequest("Emp01", "Nguyen Van A", "Canh Nau cf");
+        DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
         Response response = getResponse(API_CHECKOUT_URL, jsonDataRequest);
         return response.readEntity(DataResponse.class);
@@ -49,12 +49,10 @@ public class DataRequestService {
     			.post(Entity.entity(jsonDataRequest, MediaType.APPLICATION_JSON));
     }
 
-	private DataRequest buildDataRequest(String empId, String account, String location) {
+	private DataRequest buildDataRequest(String account) {
 		DataRequest dataRequest = new DataRequest();
-        dataRequest.setEmpId(empId);
         dataRequest.setAccount(account);
-        dataRequest.setLocalTime(new Date());
-        dataRequest.setLocation(location);
+        dataRequest.setLocaltime(new Date());
 		return dataRequest;
 	}
 
