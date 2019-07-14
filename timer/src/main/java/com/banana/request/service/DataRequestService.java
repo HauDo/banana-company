@@ -32,29 +32,35 @@ public class DataRequestService {
 	public DataResponse checkStatus() {
 		DataRequest dataRequest = buildDataRequest("ky");
 		String jsonDataRequest = convertToJson(dataRequest);
-		Response response = getResponse(API_CHECK_STATUS_URL, jsonDataRequest);
+		Response response = getResponseWithGetMethod(API_CHECK_STATUS_URL, jsonDataRequest);
 		return response.readEntity(DataResponse.class);
 	}
-     
+
     public DataResponse checkIn() throws Exception {
     	DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
-        Response response = getResponse(API_CHECKIN_URL, jsonDataRequest);
+        Response response = getResponseWithPostMethod(API_CHECKIN_URL, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
     public DataResponse checkOut() throws Exception {
         DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
-        Response response = getResponse(API_CHECKOUT_URL, jsonDataRequest);
+        Response response = getResponseWithPostMethod(API_CHECKOUT_URL, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
-    private Response getResponse(String api, String jsonDataRequest) {
+    private Response getResponseWithPostMethod(String api, String jsonDataRequest) {
     	Client client = createRestClient();
     	WebTarget target = client.target(api);
     	return target.request(MediaType.APPLICATION_JSON_TYPE)
     			.post(Entity.entity(jsonDataRequest, MediaType.APPLICATION_JSON));
+    }
+
+    private Response getResponseWithGetMethod(String api, String jsonDataRequest) {
+    	Client client = createRestClient();
+    	WebTarget target = client.target(api);
+    	return target.request(MediaType.APPLICATION_JSON_TYPE).get();
     }
 
 	private DataRequest buildDataRequest(String account) {

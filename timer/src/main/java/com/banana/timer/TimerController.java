@@ -68,11 +68,11 @@ public class TimerController implements Initializable {
 
 	private void configureButton() {
 		button.setOnAction(event -> {
-			if (status == Status.CHECKED_IN.getId()) {
+			if (status == Status.ACTIVE.getId()) {
 				handleCheckin();
 				return;
 			}
-			if (status == Status.CHECKED_OUT.getId()) {
+			if (status == Status.CHECKED_OUT.getId() || status == Status.CHECKED_IN.getId()) {
 				handleCheckout();
 				return;
 			}
