@@ -39,24 +39,21 @@ public class DataRequestService {
 
 	public DataResponse checkStatus() {
 		String api_url = host + SLASH + account;
-		DataRequest dataRequest = buildDataRequest("ky");
-		String jsonDataRequest = convertToJson(dataRequest);
+		String jsonDataRequest = convertToJson(buildDataRequest());
 		Response response = getResponseWithGetMethod(api_url, jsonDataRequest);
 		return response.readEntity(DataResponse.class);
 	}
 
     public DataResponse checkIn() throws Exception {
     	String api_url = host + SLASH + account + CHECK_IN;
-    	DataRequest dataRequest = buildDataRequest("ky");
-        String jsonDataRequest = convertToJson(dataRequest);
+        String jsonDataRequest = convertToJson(buildDataRequest());
         Response response = getResponseWithPostMethod(api_url, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
     public DataResponse checkOut() throws Exception {
     	String api_url = host + SLASH + account + CHECK_OUT;
-        DataRequest dataRequest = buildDataRequest("ky");
-        String jsonDataRequest = convertToJson(dataRequest);
+        String jsonDataRequest = convertToJson(buildDataRequest());
         Response response = getResponseWithPostMethod(api_url, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
@@ -74,9 +71,8 @@ public class DataRequestService {
     	return target.request(MediaType.APPLICATION_JSON_TYPE).get();
     }
 
-	private DataRequest buildDataRequest(String account) {
+	private DataRequest buildDataRequest() {
 		DataRequest dataRequest = new DataRequest();
-        dataRequest.setAccount(account);
         dataRequest.setLocaltime(new Date());
 		return dataRequest;
 	}
