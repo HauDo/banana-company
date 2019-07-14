@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.banana.dataresponse.StatusDataResponse;
 import com.banana.request.model.DataResponse;
 import com.banana.request.service.DataRequestService;
 
@@ -39,14 +40,26 @@ public class TimerController implements Initializable {
 	private static final String CHECK_OUT_SUCCESSFUL = "Checkout successful !!!";
 	private static final String CHECK_OUT_FAILED = "Checkout failed !!!";
 	private static final String CAN_NOT_CONNECT_SERVER = "Can't connect to server";
-	private int status = 1;
+	private int status = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configureButton();
 		configureImageView();
+		checkStatus();
+		configureButton();
 	}
 
+	private void checkStatus() {
+		imageViews.forEach(imageView -> imageView.setVisible(false));
+		StatusDataResponse statusDataResponse = DataRequestService.createInstance().checkStatus();
+		if (statusDataResponse.getStatus() == Status.CHECKIN.getId()
+				|| statusDataResponse.getStatus() == Status.CHECKOUT.getId()) {
+			status = statusDataResponse.getStatus();
+			handleButtonAndScreen(Status.CHECKOUT);
+		} else {
+			handleButtonAndScreen(Status.CHECKIN);
+		}
+	}
 
 	private void configureButton() {
 		button.setOnAction(event -> {
