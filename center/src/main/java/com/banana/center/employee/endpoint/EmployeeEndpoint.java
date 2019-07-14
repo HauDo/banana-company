@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.banana.center.employee.model.Employee;
 import com.banana.center.employee.model.Employees;
@@ -63,7 +62,7 @@ public class EmployeeEndpoint {
     @Path("{account}/checkin")
     public Response checkin(
     		@PathParam("account") String account,
-    		@RequestParam("localtime") String localtime) {
+    		@FormParam("localtime") String localtime) {
 
         final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 
@@ -83,7 +82,7 @@ public class EmployeeEndpoint {
     @Path("{account}/checkout")
     public Response checkout(
     		@PathParam("account") String account,
-    		@RequestParam("localtime") String localtime) {
+    		@FormParam("localtime") String localtime) {
 
         final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 

@@ -62,7 +62,7 @@ public class DataRequestService {
     	Client client = createRestClient();
     	WebTarget target = client.target(api);
     	return target.request(MediaType.APPLICATION_JSON_TYPE)
-    			.post(Entity.entity(jsonDataRequest, MediaType.APPLICATION_JSON));
+    			.post(Entity.entity(jsonDataRequest, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
     }
 
     private Response getResponseWithGetMethod(String api, String jsonDataRequest) {
@@ -71,7 +71,7 @@ public class DataRequestService {
     	return target.request(MediaType.APPLICATION_JSON_TYPE).get();
     }
 
-	private DataRequest buildDataRequest() {
+	private static DataRequest buildDataRequest() {
 		DataRequest dataRequest = new DataRequest();
         dataRequest.setLocaltime(new Date());
 		return dataRequest;
