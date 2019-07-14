@@ -15,38 +15,49 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
 
+import com.banana.configuration.service.ConfigurationService;
 import com.banana.request.model.DataRequest;
 import com.banana.request.model.DataResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DataRequestService {
 
-	public static final String API_CHECK_STATUS_URL = "http://localhost:8080/center/employee/ky";
-     public static final String API_CHECKIN_URL = "http://localhost:8080/center/employee/ky/checkin";
-     public static final String API_CHECKOUT_URL = "http://localhost:8080/center/employee/ky/checkout";
+	private static String host = "";
+	private static String account = "";
+	private static final String SLASH = "/";
+	private static final String CHECK_IN = "/checkin";
+	private static final String CHECK_OUT = "/checkout";
 
-     public static DataRequestService createInstance() {
-         return new DataRequestService();
-     }
+	static {
+		host = ConfigurationService.createInstance().getHost();
+	    account = ConfigurationService.createInstance().getAccount();
+	}
+
+    public static DataRequestService createInstance() {
+        return new DataRequestService();
+    }
 
 	public DataResponse checkStatus() {
+		String api_url = host + SLASH + account;
 		DataRequest dataRequest = buildDataRequest("ky");
 		String jsonDataRequest = convertToJson(dataRequest);
-		Response response = getResponseWithGetMethod(API_CHECK_STATUS_URL, jsonDataRequest);
+		Response response = getResponseWithGetMethod(api_url, jsonDataRequest);
 		return response.readEntity(DataResponse.class);
 	}
 
     public DataResponse checkIn() throws Exception {
+    	String api_url = host + SLASH + account + CHECK_IN;
     	DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
-        Response response = getResponseWithPostMethod(API_CHECKIN_URL, jsonDataRequest);
+        Response response = getResponseWithPostMethod(api_url, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
     public DataResponse checkOut() throws Exception {
+    	String api_url = host + SLASH + account + CHECK_OUT;
         DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);
-        Response response = getResponseWithPostMethod(API_CHECKOUT_URL, jsonDataRequest);
+        Response response = getResponseWithPostMethod(api_url, jsonDataRequest);
         return response.readEntity(DataResponse.class);
     }
 
