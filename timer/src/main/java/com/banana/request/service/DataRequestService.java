@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DataRequestService {
 
+	public static final String API_CHECK_STATUS_URL = "http://localhost:8080/center/employee/ky";
      public static final String API_CHECKIN_URL = "http://localhost:8080/center/employee/ky/checkin";
      public static final String API_CHECKOUT_URL = "http://localhost:8080/center/employee/ky/checkout";
 
@@ -28,6 +29,13 @@ public class DataRequestService {
          return new DataRequestService();
      }
 
+	public DataResponse checkStatus() {
+		DataRequest dataRequest = buildDataRequest("ky");
+		String jsonDataRequest = convertToJson(dataRequest);
+		Response response = getResponse(API_CHECK_STATUS_URL, jsonDataRequest);
+		return response.readEntity(DataResponse.class);
+	}
+     
     public DataResponse checkIn() throws Exception {
     	DataRequest dataRequest = buildDataRequest("ky");
         String jsonDataRequest = convertToJson(dataRequest);

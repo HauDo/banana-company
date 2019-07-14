@@ -11,9 +11,9 @@ import com.banana.request.service.DataRequestService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -39,14 +39,32 @@ public class TimerController implements Initializable {
 	private static final String CHECK_OUT_SUCCESSFUL = "Checkout successful !!!";
 	private static final String CHECK_OUT_FAILED = "Checkout failed !!!";
 	private static final String CAN_NOT_CONNECT_SERVER = "Can't connect to server";
-	private int status = 1;
+	private int status = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configureButton();
 		configureImageView();
+		checkStatus();
+		configureButton();
 	}
 
+	private void checkStatus() {
+		imageViews.forEach(imageView -> imageView.setVisible(false));
+		try {
+			dataResponse = DataRequestService.createInstance().checkStatus();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		if (dataResponse.getStatus() == Status.CHECKED_IN.getId()
+				|| dataResponse.getStatus() == Status.CHECKED_OUT.getId()) {
+			status = dataResponse.getStatus();
+			handleButtonAndScreen(Status.CHECKED_OUT);
+		} else {
+			handleButtonAndScreen(Status.CHECKED_IN);
+		}
+	}
 
 	private void configureButton() {
 		button.setOnAction(event -> {
