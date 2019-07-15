@@ -5,16 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.banana.dataresponse.StatusDataResponse;
 import com.banana.request.model.DataResponse;
 import com.banana.request.service.DataRequestService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -51,23 +50,29 @@ public class TimerController implements Initializable {
 
 	private void checkStatus() {
 		imageViews.forEach(imageView -> imageView.setVisible(false));
-		StatusDataResponse statusDataResponse = DataRequestService.createInstance().checkStatus();
-		if (statusDataResponse.getStatus() == Status.CHECKIN.getId()
-				|| statusDataResponse.getStatus() == Status.CHECKOUT.getId()) {
-			status = statusDataResponse.getStatus();
-			handleButtonAndScreen(Status.CHECKOUT);
+		try {
+			dataResponse = DataRequestService.createInstance().checkStatus();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		if (dataResponse.getStatus() == Status.CHECKED_IN.getId()
+				|| dataResponse.getStatus() == Status.CHECKED_OUT.getId()) {
+			status = dataResponse.getStatus();
+			handleButtonAndScreen(Status.CHECKED_OUT);
 		} else {
-			handleButtonAndScreen(Status.CHECKIN);
+			handleButtonAndScreen(Status.CHECKED_IN);
 		}
 	}
 
 	private void configureButton() {
 		button.setOnAction(event -> {
-			if (status == Status.CHECKIN.getId()) {
+			if (status == Status.ACTIVE.getId()) {
 				handleCheckin();
 				return;
 			}
-			if (status == Status.CHECKOUT.getId()) {
+			if (status == Status.CHECKED_OUT.getId() || status == Status.CHECKED_IN.getId()) {
 				handleCheckout();
 				return;
 			}
@@ -83,10 +88,10 @@ public class TimerController implements Initializable {
 			e.printStackTrace();
 			return;
 		}
-		if (dataResponse.getStatus() == Status.CHECKIN.getId()) {
-			buildAlert(CHECK_IN_SUCCESSFUL, dataResponse.getMessage());
-			status = Status.CHECKOUT.getId();
-			handleButtonAndScreen(Status.CHECKOUT);
+		if (dataResponse.getStatus() == Status.CHECKED_IN.getId()) {
+			buildAlert(CHECK_IN_SUCCESSFUL, "Checkin successfully, enjoy the game ^.^");
+			status = Status.CHECKED_OUT.getId();
+			handleButtonAndScreen(Status.CHECKED_OUT);
 		}
 	}
 
@@ -98,9 +103,9 @@ public class TimerController implements Initializable {
 			e.printStackTrace();
 			return;
 		}
-		if (dataResponse.getStatus() == Status.CHECKOUT.getId()) {
-			buildAlert(CHECK_OUT_SUCCESSFUL, dataResponse.getMessage());
-			handleButtonAndScreen(Status.CHECKOUT);
+		if (dataResponse.getStatus() == Status.CHECKED_OUT.getId()) {
+			buildAlert(CHECK_OUT_SUCCESSFUL, "Check out successfully, enjoy the game ^.^");
+			handleButtonAndScreen(Status.CHECKED_OUT);
 		}
 	}
 

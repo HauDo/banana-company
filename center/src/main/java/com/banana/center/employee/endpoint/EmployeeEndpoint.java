@@ -26,22 +26,22 @@ public class EmployeeEndpoint {
     private EmployeeRepository employeeRepository;
 
     private PolicyRepository policyRepository = new PolicyRepository();
-    
+
     public EmployeeEndpoint(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-    
+
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Path("")
     public Response addNewEmployee(
     		@FormParam("account") String account) {
-    	
+
     	employeeRepository.add(new Employee(account, Status.ACTIVE));
-    	
+
         return Response.accepted(employeeRepository.list().size()).build();
     }
-    
+
     @GET
     @Path("{account}")
     public Response checkEmployee(
@@ -75,10 +75,9 @@ public class EmployeeEndpoint {
         }
 
         matchingEmployees.first().checkin();
-
         return Response.accepted(matchingEmployees.first()).build();
     }
-    
+
     @POST
     @Path("{account}/checkout")
     public Response checkout(
@@ -99,7 +98,7 @@ public class EmployeeEndpoint {
 
         return Response.accepted(matchingEmployees.first()).build();
     }
-    
+
     @POST
     @Path("{account}/inactive")
     public Response inactiveEmployee(
@@ -124,7 +123,7 @@ public class EmployeeEndpoint {
     @Path("{account}/active")
     public Response activeEmployee(
     		@PathParam("account") String account) {
-    	
+
     	final Employees matchingEmployees = employeeRepository.list().filterByAccount(account);
 
         if (null == account
@@ -147,7 +146,7 @@ public class EmployeeEndpoint {
     		@QueryParam("localtime") String localtime,
     		@QueryParam("id") String id,
     		@QueryParam("status") String status) {
-    	
+
     	Employees list = employeeRepository.list();
 
         if (null != id) {
@@ -165,4 +164,5 @@ public class EmployeeEndpoint {
 
         return Response.accepted(list.filterOutInactive()).build();
     }
+
 }

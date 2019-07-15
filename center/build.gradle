@@ -35,3 +35,4 @@ buildscript {
 }
 
 apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'eclipse'
