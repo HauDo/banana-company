@@ -89,7 +89,8 @@ public class EmployeeEndpoint {
 
         if (null == account
         		|| matchingEmployees.isEmpty()
-        		|| matchingEmployees.first().getStatus() != Status.CHECKED_IN) {
+        		|| matchingEmployees.first().getStatus() != Status.CHECKED_IN
+        		|| matchingEmployees.first().getStatus() == Status.CHECKED_OUT) {
             return Response.status(Response.Status.BAD_REQUEST)
             			   .entity("Could not process this request")
             			   .build();
