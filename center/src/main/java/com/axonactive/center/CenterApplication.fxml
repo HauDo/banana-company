@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="622.0" prefWidth="584.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.axonactive.center.CenterApplicationController">
+	<children>
+		<ListView fx:id="employeeListView" layoutX="39.0"
+			layoutY="34.0" prefHeight="396.0" prefWidth="513.0" />
+		<Label fx:id="amountEmployee" alignment="CENTER" layoutX="39.0"
+			layoutY="446.0" prefHeight="141.0" prefWidth="513.0" text="Label"
+			textAlignment="CENTER" textFill="#53a4ab">
+			<font>
+				<Font name="Segoe UI" size="40.0" />
+			</font>
+		</Label>
+	</children>
+</AnchorPane>
