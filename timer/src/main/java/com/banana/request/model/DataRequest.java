@@ -2,28 +2,17 @@ package com.banana.request.model;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@XmlRootElement(name = "dataRequest")
 public class DataRequest {
 
-	private String empId;
+	private String id;
 	private String account;
-	private Date localTime;
-	private String location;
+	private Date localtime;
 
-	public String getEmpId() {
-		return empId;
+	public String getId() {
+		return id;
 	}
-	public void setEmpId(String empId) {
-		this.empId = empId;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getAccount() {
 		return account;
@@ -31,20 +20,11 @@ public class DataRequest {
 	public void setAccount(String account) {
 		this.account = account;
 	}
-	public Date getLocalTime() {
-		return localTime;
+	public Date getLocaltime() {
+		return localtime;
 	}
-	public void setLocalTime(Date localTime) {
-		this.localTime = localTime;
+	public void setLocaltime(Date localtime) {
+		this.localtime = localtime;
 	}
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-
-
 
 }
