@@ -24,7 +24,7 @@ Java New Features
 
 ## Challenge: Migrate A Java 8 Application
 
-
+![img](https://lh4.googleusercontent.com/9tee-fo4VqPkUSvsnFinIrPqCvegbUbAzKjNcVLG6CiTQbZkOGSbR_AHDd86Vii1dTWbUiXbBsSpIhJCo4QKuHHRZfzK2RwAkq_Hw8IHfLHCqQPV3KkXibgk1xWTZnvCJVqQGQXPM8Y)
 
 ### Description
 
