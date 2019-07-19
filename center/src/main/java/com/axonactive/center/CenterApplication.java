@@ -1,49 +1,30 @@
 package com.axonactive.center;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.axonactive.center.model.employee.Employee;
+import com.axonactive.center.repository.employee.EmployeeRepository;
 
 @SpringBootApplication
-public class CenterApplication extends Application {
-
-	private ConfigurableApplicationContext context;
-	private Parent rootNode;
+public class CenterApplication {
 
 	public static void main(final String[] args) {
-		launch(CenterApplication.class, args);
-	}
-	
-	@Override
-	public void init() throws Exception {
-		SpringApplicationBuilder builder = new SpringApplicationBuilder(CenterApplication.class);
-		context = builder.run(getParameters().getRaw().toArray(new String[0]));
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CenterApplication.fxml"));
-		loader.setControllerFactory(context::getBean);
-		rootNode = loader.load();
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-		double width = visualBounds.getWidth();
-		double height = visualBounds.getHeight();
-		primaryStage.setScene(new Scene(rootNode, width, height));
-		primaryStage.centerOnScreen();
-		primaryStage.show();
-	}
-
-	@Override
-	public void stop() throws Exception {
-		context.close();
+		SpringApplication.run(CenterApplication.class, args);
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				List<Employee> employees = EmployeeRepository.findAll();
+				System.out.println(employees.toString());
+				System.out.println(employees.size());
+			}
+		}, 0, 5000);
 	}
 
 }
