@@ -16,7 +16,6 @@ import com.banana.center.employee.model.Employee;
 import com.banana.center.employee.model.Employees;
 import com.banana.center.employee.repository.EmployeeRepository;
 import com.banana.center.enumeration.Status;
-import com.banana.center.policy.repository.PolicyRepository;
 
 @Path("employee")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,8 +23,6 @@ import com.banana.center.policy.repository.PolicyRepository;
 public class EmployeeEndpoint {
 
     private EmployeeRepository employeeRepository;
-
-    private PolicyRepository policyRepository = new PolicyRepository();
 
     public EmployeeEndpoint(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -89,7 +86,7 @@ public class EmployeeEndpoint {
         if (null == account
         		|| matchingEmployees.isEmpty()
         		|| matchingEmployees.first().getStatus() != Status.CHECKED_IN
-        		|| matchingEmployees.first().getStatus() == Status.CHECKED_OUT) {
+        		&& matchingEmployees.first().getStatus() != Status.CHECKED_OUT) {
             return Response.status(Response.Status.BAD_REQUEST)
             			   .entity("Could not process this request")
             			   .build();

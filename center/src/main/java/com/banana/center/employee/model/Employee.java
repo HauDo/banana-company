@@ -1,7 +1,8 @@
 package com.banana.center.employee.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,11 +16,11 @@ public class Employee {
 	private String account;
 	private String localtime;
 	@XmlTransient
-	private ArrayList<Status> statuses;
+	private SortedSet<Status> statuses;
 
 	public Employee(String account, Status status) {
 		this.account = account;
-		this.statuses = new ArrayList<>();
+		this.statuses = new TreeSet<>();
 		this.statuses.add(status);
 	}
 
@@ -47,16 +48,16 @@ public class Employee {
 		this.localtime = localtime;
 	}
 
-	public ArrayList<Status> getStatuses() {
+	public Set<Status> getStatuses() {
 		return statuses;
 	}
 
-	public void setStatuses(ArrayList<Status> statuses) {
+	public void setStatuses(TreeSet<Status> statuses) {
 		this.statuses = statuses;
 	}
 
     public Status getStatus() {
-        return statuses.get(statuses.size() - 1);
+        return statuses.last();
     }
     
     @XmlElement(name = "status")
@@ -110,7 +111,7 @@ public class Employee {
 		return result;
 	}
 	
-    public List<Status> anyStatus() {
+    public Set<Status> anyStatus() {
         return statuses;
     }
 }

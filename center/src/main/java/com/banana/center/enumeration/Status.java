@@ -32,4 +32,5 @@ public enum Status {
     public static Status fromValue(int value) {
         return lookup.get(value);
     }
+
 }
