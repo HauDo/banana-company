@@ -22,9 +22,8 @@ public class CenterApplication {
 			public void run() {
 				List<Employee> employees = EmployeeRepository.findAll();
 				System.out.println(employees.toString());
-				System.out.println(employees.size());
 			}
-		}, 0, 5000);
+		}, 0, 4000);
 	}
 
 }

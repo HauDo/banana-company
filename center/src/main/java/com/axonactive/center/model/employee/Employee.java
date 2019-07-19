@@ -10,12 +10,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee {
-	private String name;
+	private String account;
+	private Status status;
 	private WorkingStatus workingStatus;
 	
 	@Override
 	public String toString() {
-		return name + " | " + workingStatus;
+		return account + " | " + status + " | " + workingStatus;
 	}
 
 }

@@ -4,26 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.axonactive.center.model.employee.Employee;
+import com.axonactive.center.model.employee.Status;
 import com.axonactive.center.model.employee.WorkingStatus;
 
 public class EmployeeRepository {
+
 	private static List<Employee> employees = new ArrayList<>();
-	
+
 	static {
-		employees.add(new Employee("May Thu Khin", WorkingStatus.INACTIVE));
-		employees.add(new Employee("Phong Pham", WorkingStatus.INACTIVE));
+		employees.add(new Employee("phongpnq", Status.ACTIVE, WorkingStatus.CHECKED_OUT));
 	}
-	
+
 	private EmployeeRepository() {}
 
 	public static List<Employee> findAll() {
 		return employees;
 	}
 
-	public static Employee save(String name) {
-		Employee employee = new Employee();
-		employee.setName(name);
-		employee.setWorkingStatus(WorkingStatus.INACTIVE);
+	public static Employee add(Employee employee) {
 		employees.add(employee);
 		return employee;
 	}
