@@ -1,0 +1,5 @@
+com\hello\model\NamedEntity.class
+com\hello\model\Visit.class
+com\hello\service\PersonService.class
+com\hello\model\BaseEntity.class
+com\hello\model\Person.class
