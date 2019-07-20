@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.banana.center.employee.model.Employee;
 import com.banana.center.employee.model.Employees;
 import com.banana.center.employee.repository.EmployeeRepository;
+import com.banana.center.employee.service.LogService;
 import com.banana.center.enumeration.Status;
 
 @Path("employee")
@@ -33,8 +34,9 @@ public class EmployeeEndpoint {
     @Path("")
     public Response addNewEmployee(
     		@FormParam("account") String account) {
-
-    	employeeRepository.add(new Employee(account, Status.ACTIVE));
+    	Employee employee = new Employee(account, Status.ACTIVE);
+    	LogService.logWithDelayTime(employee);
+    	employeeRepository.add(employee);
 
         return Response.accepted(employeeRepository.list().size()).build();
     }

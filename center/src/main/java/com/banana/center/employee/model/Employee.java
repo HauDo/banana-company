@@ -80,6 +80,13 @@ public class Employee {
     public void inactive() {
     	statuses.add(Status.INACTIVE);
     }
+    
+    
+
+	@Override
+	public String toString() {
+		return account + " | " + statuses.toString();
+	}
 
 	@Override
 	public boolean equals(Object o) {
